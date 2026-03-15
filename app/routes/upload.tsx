@@ -1,10 +1,10 @@
 import {type FormEvent, useState} from 'react'
 import Navbar from "~/components/Navbar";
 import FileUploader from "~/components/FileUploader";
-import {usePuterStore} from "../lib/puter";
+import {usePuterStore} from "~/lib/puter";
 import {useNavigate} from "react-router";
-import {convertPdfToImage} from "../lib/pdf2img";
-import {generateUUID} from "../lib/utils";
+import {convertPdfToImage} from "~/lib/pdf2img";
+import {generateUUID} from "~/lib/utils";
 import {prepareInstructions} from "../constants";
 
 const Upload = () => {
@@ -27,7 +27,7 @@ const Upload = () => {
 
         setStatusText('Converting to image...');
         const imageFile = await convertPdfToImage(file);
-        if(!imageFile.file) return setStatusText('Error: Failed to convert PDF to image');
+        if(!imageFile.file) return setStatusText(`Error: ${imageFile.error || 'Failed to convert PDF to image'}`);
 
         setStatusText('Uploading the image...');
         const uploadedImage = await fs.upload([imageFile.file]);
